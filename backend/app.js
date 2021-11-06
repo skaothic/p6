@@ -7,7 +7,6 @@ require('dotenv').config()
 const helmet = require("helmet");
 const mongoSanitize = require('express-mongo-sanitize')
 var RateLimit = require('express-rate-limit');
-var MongoStore = require('rate-limit-mongo');
 
 
 mongoose.connect(process.env.DB_LINK, {
@@ -17,29 +16,29 @@ mongoose.connect(process.env.DB_LINK, {
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-
-
-
-const limiter = new RateLimit({
-    store: new MongoStore({
-        uri: process.env.DB_LINK,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        // should match windowMs
-        expireTimeMs: 15 * 60 * 1000,
-        errorHandler: console.error.bind(null, 'rate-limit-mongo')
-            // see Configuration section for more options and details
-    }),
-    max: 100,
-    // should match expireTimeMs
-    windowMs: 15 * 60 * 1000
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+    next()
 });
+
+
+// Rate limiting //
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 50, // limit each IP to 50 requests per windowMs
+    message: "Trop de requêtes, veuillez réessayer après 15 minutes."
+});
+
+
 
 
 app.use(limiter);
 app.use(express.json())
 app.use(helmet());
-app.use(cors())
+app.use(cors());
 app.use(mongoSanitize())
 
 const sauceRoutes = require('./routes/sauce')
