@@ -25,8 +25,7 @@ app.use((req, res, next) => {
 
 
 // Rate limiting //
-const rateLimit = require("express-rate-limit");
-const limiter = rateLimit({
+const limiter = RateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 50, // limit each IP to 50 requests per windowMs
     message: "Trop de requêtes, veuillez réessayer après 15 minutes."
