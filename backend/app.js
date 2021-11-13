@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 // Rate limiting //
 const limiter = RateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 50, // limit each IP to 50 requests per windowMs
+    max: 100, // limit each IP to 50 requests per windowMs
     message: "Trop de requêtes, veuillez réessayer après 15 minutes."
 });
 
@@ -50,6 +50,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/sauces', sauceRoutes)
 app.use('/api/auth', userRoutes);
+
 
 
 module.exports = app;
