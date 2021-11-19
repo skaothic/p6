@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 // Rate limiting //
 const limiter = RateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 50 requests per windowMs
+    max: 1000, // limit each IP to 100 requests per windowMs
     message: "Trop de requêtes, veuillez réessayer après 15 minutes."
 });
 

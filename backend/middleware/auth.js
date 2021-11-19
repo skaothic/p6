@@ -12,13 +12,7 @@ module.exports = (req, res, next) => {
         } else {
             next();
         }
-    } catch {
-        res.status(403).json({
-            error: new Error('Invalid request!')
-        });
+    } catch (error) {
+        res.status(401).json({ error: 'Token expiré' });
     }
 };
-
-
-
-//integrer err 403 pour mauvais Id
