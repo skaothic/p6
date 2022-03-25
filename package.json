@@ -2,7 +2,7 @@
     "name": "hot-takes",
     "version": "1.0.0",
     "description": "",
-    "main": "./frontend/index.html",
+    "main": "/frontend/index.html",
     "scripts": {
         "start": "run-script-os",
         "start:linux:darwin": "concurrently \"node ./node_modules/.bin/http-server -a localhost -p 8081\"  \"sleep 1 && open http://localhost:8081\"",
