@@ -7,7 +7,7 @@ const auth = require('../middleware/auth')
 const multer = require('../middleware/multer-config')
 
 
-router.get('/', auth, sauceCtrl.getAllSAuce)
+router.get('/', sauceCtrl.getAllSAuce)
 router.post('/', auth, multer, sauceCtrl.createSauce);
 router.get('/:id', auth, sauceCtrl.getOneSauce);
 router.put('/:id', auth, multer, sauceCtrl.modifySauce);
